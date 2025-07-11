@@ -1,2 +1,1 @@
-# web-framework-n-knocks
-Webフレームワークを学ぶためのリポジトリ
+This is initial commit in repository.
