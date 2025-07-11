@@ -7,7 +7,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./init.db:/docker-entrypoint-initdb.d
+      - ./init.db:/docker-entrypoint-initdb.d # ここのSQLファイルが初回起動に勝手に実行される(はず)
 volumes:
   db_data:
     driver: local
