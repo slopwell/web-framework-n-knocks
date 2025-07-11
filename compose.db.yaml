@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:latest
+    env_file:
+      - .envrc
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.db:/docker-entrypoint-initdb.d
+volumes:
+  db_data:
+    driver: local
