@@ -1,0 +1,1 @@
+-- Note: The default database 'postgres' is used for initial connection
