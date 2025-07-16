@@ -14,4 +14,4 @@ services:
     networks:
       - web-framework-n-knocks
     depends_on:
-      - db # ROOTのcompose.db.yamlに記載
+      - db # ROOTのyamlに記載
