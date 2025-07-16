@@ -1,10 +1,11 @@
 const healthExecuter = require("./executer.js");
-const { methodNotAllowed } = require("../utils/response.js");
+const { successfully, methodNotAllowed } = require("../utils/response.js");
 
-const healthHandler = (method) => {
+const healthHandler = (path, method) => {
   switch (method) {
     case "GET": {
-      return healthExecuter.get();
+      const output = healthExecuter.get();
+      return successfully(output);
     }
     default: {
       return methodNotAllowed();

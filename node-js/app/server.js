@@ -2,13 +2,13 @@ const http = require("http");
 const url = require("url");
 const route = require("./api/route.js");
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const path = parsedUrl.pathname;
   const method = req.method;
   console.log(`Received ${method} request for ${path}`);
 
-  const output = route(path, method, req, res);
+  const output = await route(path, method, req, res);
 
   console.log(`Output: ${JSON.stringify(output)}`);
 
@@ -16,11 +16,11 @@ const server = http.createServer((req, res) => {
   if (output) {
     res.writeHead(output.statusCode, output.headers);
     res.end(output.body);
-  } else {
-    // デフォルトの404レスポンス
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Not Found" }));
+    return;
   }
+  // デフォルトの404レスポンス
+  res.writeHead(404, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ error: "Not Found" }));
 });
 
 const port = 3000;

@@ -1,9 +1,11 @@
+const { testConnection } = require("../../db/core.js");
+
 const getHealthStatus = () => {
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status: "ok" }),
-  };
+  const health = testConnection();
+  if (health) {
+    return { status: "ok" };
+  }
+  return { status: "error", message: "Database connection failed" };
 };
 
 const healthExecuter = {
