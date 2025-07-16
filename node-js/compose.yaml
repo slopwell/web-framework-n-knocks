@@ -5,12 +5,21 @@ services:
   node-js:
     image: node:latest
     container_name: node-js-naitive
+    env_file:
+      - ../.envrc
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
     volumes:
       - ./app:/usr/src/app
     working_dir: /usr/src/app
     ports:
       - "3000:3000"
-    command: npm run dev
+    command: "npm run start"
+
     networks:
       - web-framework-n-knocks
     depends_on:
