@@ -12,11 +12,13 @@ const routeTable = [
   },
 ];
 
-const route = async (path, method) => {
-  const target = routeTable.find((route) => path.startsWith(route.path));
+const route = async (simpleRequest) => {
+  const target = routeTable.find((route) =>
+    simpleRequest.path.startsWith(route.path)
+  );
 
   if (target) {
-    const result = await target.handler(path, method);
+    const result = await target.handler(simpleRequest);
     return result;
   }
   console.warn(`No handler found for path: ${path}, method: ${method}`);

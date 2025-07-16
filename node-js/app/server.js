@@ -1,14 +1,10 @@
 const http = require("http");
-const url = require("url");
+const parseRequest = require("./api/utils/request-parser.js");
 const route = require("./api/route.js");
 
 const server = http.createServer(async (req, res) => {
-  const parsedUrl = url.parse(req.url, true);
-  const path = parsedUrl.pathname;
-  const method = req.method;
-  console.log(`Received ${method} request for ${path}`);
-
-  const output = await route(path, method, req, res);
+  const simpleRequest = parseRequest(req);
+  const output = await route(simpleRequest);
 
   console.log(`Output: ${JSON.stringify(output)}`);
 

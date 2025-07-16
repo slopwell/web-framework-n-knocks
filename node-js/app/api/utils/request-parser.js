@@ -1,0 +1,31 @@
+const parseRequest = (req) => {
+  const url = new URL(req.url, `http://${req.headers.host}`);
+
+  const queryParams = {};
+  for (const [key, value] of url.searchParams) {
+    queryParams[key] = value;
+  }
+
+  const pathList = url.pathname.split("/").filter((it) => it !== "");
+
+  const output = {
+    method: req.method,
+    href: url.href,
+    hostname: url.hostname,
+    port: url.port,
+
+    headers: req.headers,
+    body: req.body,
+
+    path: url.pathname,
+    pathList: pathList,
+    query: queryParams,
+    searchParams: url.searchParams,
+  };
+
+  console.log("[parseRequest] output:", output);
+
+  return output;
+};
+
+module.exports = parseRequest;
