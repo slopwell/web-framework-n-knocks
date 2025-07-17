@@ -8,6 +8,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init.db:/docker-entrypoint-initdb.d # ここのSQLファイルが初回起動に勝手に実行される(はず)
+    networks:
+      - web-framework-n-knocks
 volumes:
   db_data:
     driver: local

@@ -6,7 +6,7 @@ const parseRequest = (req) => {
     queryParams[key] = value;
   }
 
-  const pathList = url.pathname.split("/").filter((it) => it !== "");
+  const [api, ...resource] = url.pathname.split("/").filter((it) => it !== "");
 
   const output = {
     method: req.method,
@@ -18,7 +18,7 @@ const parseRequest = (req) => {
     body: req.body,
 
     path: url.pathname,
-    pathList: pathList,
+    pathList: resource,
     query: queryParams,
     searchParams: url.searchParams,
   };

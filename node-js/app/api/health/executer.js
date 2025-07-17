@@ -1,7 +1,8 @@
 const { testConnection } = require("../../db/core.js");
 
-const getHealthStatus = () => {
-  const health = testConnection();
+const getHealthStatus = async () => {
+  const health = await testConnection();
+  console.log("qaaaaaaaaaaaaaaaaaaaaaaaaaa", health);
   if (health) {
     return { status: "ok" };
   }
