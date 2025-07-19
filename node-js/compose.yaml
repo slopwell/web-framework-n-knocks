@@ -10,9 +10,6 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - POSTGRES_DB=mydatabase
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
     volumes:
       - ./app:/usr/src/app
     working_dir: /usr/src/app

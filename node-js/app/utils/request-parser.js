@@ -1,4 +1,4 @@
-const parseRequest = (req) => {
+const parseRequest = (req, postBody) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
   const queryParams = {};
@@ -15,7 +15,7 @@ const parseRequest = (req) => {
     port: url.port,
 
     headers: req.headers,
-    body: req.body,
+    body: postBody,
 
     path: url.pathname,
     pathList: resource,

@@ -18,3 +18,5 @@ status=$(curl -X "$method" "$url" \
   -o /dev/null \
   -w '%{http_code}\n' \
   -s)
+
+

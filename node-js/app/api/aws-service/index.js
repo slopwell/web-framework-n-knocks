@@ -1,6 +1,6 @@
 const awsServiceId = require("./handler/aws-service-id.js");
 const awsServices = require("./handler/aws-services.js");
-const { badRequest } = require("../utils/response.js");
+const { badRequest } = require("../../utils/response.js");
 
 const awsServiceHandler = async (input) => {
   const { pathList } = input;

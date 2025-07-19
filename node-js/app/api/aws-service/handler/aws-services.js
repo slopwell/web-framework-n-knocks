@@ -1,5 +1,8 @@
 const awsServiceExecuter = require("../executer.js");
-const { successfully, methodNotAllowed } = require("../../utils/response.js");
+const {
+  successfully,
+  methodNotAllowed,
+} = require("../../../utils/response.js");
 
 const awsServices = async ({ method, ...rest }) => {
   switch (method) {

@@ -26,7 +26,8 @@ const runSql = async (sql, params = []) => {
     const result = await client.query(sql, params);
     return result.rows;
   } catch (error) {
-    console.error("Error executing SQL: %o", error);
+    console.error("[runSql] Error executing SQL: %o , Params: %o", sql, params);
+    console.error("[runSql] Error: %o", error);
     throw error;
   } finally {
     if (client) {

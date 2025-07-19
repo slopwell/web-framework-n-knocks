@@ -3,7 +3,7 @@ const {
   successfully,
   methodNotAllowed,
   internalServerError,
-} = require("../utils/response.js");
+} = require("../../utils/response.js");
 
 const healthHandler = async ({ method }) => {
   console.log(`[healthHandler] method: ${method}`);

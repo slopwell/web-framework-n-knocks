@@ -11,7 +11,10 @@ const listAwsServicesByCategory = async ({ query }) => {
   return await awsServiceDao.list(category);
 };
 
-const pushAwsService = () => {};
+const pushAwsService = async ({ body }) => {
+  const result = await awsServiceDao.insert(body);
+  return result;
+};
 
 const awsServiceExecuter = {
   list: listAwsServicesByCategory,
