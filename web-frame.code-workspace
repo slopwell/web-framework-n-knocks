@@ -4,7 +4,14 @@
       "path": ".",
       "name": "ROOT"
     },
-
+    {
+      "path": "./test",
+      "name": "TEST"
+    },
+    {
+      "name": "native-node-http",
+      "path": "./node-js"
+    }
   ],
   "settings": {
     "editor.formatOnSave": true,

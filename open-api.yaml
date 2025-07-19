@@ -1,0 +1,232 @@
+openapi: 3.0.0
+info:
+  title: Web Framework N-Knocks API
+  description: Node.js web framework implementation with AWS service management
+  version: 1.0.0
+  contact:
+    name: API Support
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Check the health status of the API
+      tags:
+        - Health
+      responses:
+        "200":
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+        "405":
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /aws-service-id/{id}:
+    get:
+      summary: Get AWS service by ID
+      description: Retrieve a specific AWS service by its ID
+      tags:
+        - AWS Services
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the AWS service to retrieve
+          schema:
+            type: string
+            example: "ec2"
+      responses:
+        "200":
+          description: AWS service retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AwsService"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: AWS service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      summary: Create a new AWS service
+      description: Add a new AWS service to the database
+      tags:
+        - AWS Services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - category
+                - description
+              properties:
+                name:
+                  type: string
+                  description: Name of the AWS service
+                  example: "ecs"
+                category:
+                  type: string
+                  description: Category of the AWS service
+                  example: "compute"
+                description:
+                  type: string
+                  description: Description of the AWS service
+                  example: "Elastic Container Service"
+      responses:
+        "200":
+          description: AWS service retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AwsService"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: AWS service not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /aws-services:
+    get:
+      summary: List AWS services
+      description: Get a list of AWS services, optionally filtered by category
+      tags:
+        - AWS Services
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: Filter services by category
+          schema:
+            type: string
+            example: "compute"
+      responses:
+        "200":
+          description: List of AWS services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AwsService"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "405":
+          description: Method not allowed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    AwsService:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the AWS service
+          example: "ec2"
+        name:
+          type: string
+          description: Name of the AWS service
+          example: "ec2"
+        category:
+          type: string
+          description: Category of the AWS service
+          example: "compute"
+        description:
+          type: string
+          description: Description of the AWS service
+          example: "Elastic Compute Cloud"
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - name
+        - category
+        - description
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error description
+          example: "Invalid request parameters"
+        status:
+          type: integer
+          description: HTTP status code
+          example: 400
+      required:
+        - error
+        - message
+        - status
+
+tags:
+  - name: Health
+    description: Health check operations
+  - name: AWS Services
+    description: Operations for managing AWS services

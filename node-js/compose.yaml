@@ -1,0 +1,23 @@
+include:
+  - ../compose.db.yaml
+
+services:
+  node-js:
+    image: node:latest
+    container_name: node-js-naitive
+    env_file:
+      - ../.envrc
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./app:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    command: "npm run start"
+
+    networks:
+      - web-framework-n-knocks
+    depends_on:
+      - db # ROOTのyamlに記載
