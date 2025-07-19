@@ -11,6 +11,10 @@
     {
       "name": "native-node-http",
       "path": "./node-js"
+    },
+    {
+      "name": "fast-api",
+      "path": "./fast-api"
     }
   ],
   "settings": {
