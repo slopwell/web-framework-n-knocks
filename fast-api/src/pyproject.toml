@@ -1,0 +1,19 @@
+[project]
+name = "fast-api"
+version = "0.1.0"
+description = "FastAPI web framework implementation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.116.1",
+    "sqlmodel>=0.0.24",
+    "uvicorn>=0.24.0",
+    "psycopg2-binary>=2.9.9",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
