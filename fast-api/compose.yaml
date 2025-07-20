@@ -1,0 +1,24 @@
+include:
+  - ../compose.db.yaml
+
+services:
+  fast-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fast-api
+    env_file:
+      - ../.envrc
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./app:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "8000:8000"
+    command: "make start"
+    networks:
+      - web-framework-n-knocks
+    depends_on:
+      - db # ROOTのyamlに記載
