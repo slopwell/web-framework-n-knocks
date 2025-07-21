@@ -3,7 +3,8 @@ from fastapi import Depends, FastAPI
 from sqlalchemy import select
 from sqlmodel import Session
 from db.core import get_session
-from db.aws_service_dao import aws_service, get_aws_service_id_sql, list_aws_services_sql, post_aws_service_id_sql, test_db_connection
+from db.aws_service_dao import aws_service, get_aws_service_id_sql, list_aws_services_sql, post_aws_service_id_sql
+from db.health_dao import test_db_connection
 
 app = FastAPI()
 
@@ -49,7 +50,7 @@ async def health_check(session: SessionDep):
     """
     Health check endpoint.
     """
-    result = test_db_connection(session)
+    result = (session)
     if result:
         return result
     return {"status": "DB connection failed!!"}

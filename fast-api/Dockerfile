@@ -1,8 +1,12 @@
-FROM python:3.11-slim
+FROM ghcr.io/astral-sh/uv:debian
 
-RUN apt update
-RUN curl -LsSf https://astral.sh/uv/install.sh | bash
-RUN uv sync --frozen
+WORKDIR /usr/src/app
+
+COPY ./src /usr/src/app
+COPY ./Makefile /usr/src/app/Makefile
+
+RUN uv --version \
+ && uv sync --frozen
 
 RUN make setup
 
