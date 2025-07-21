@@ -1,21 +1,40 @@
 # fast-api/Makefile
-.PHONY: setup
+.PHONY: setup start dev sync openapi stop
+
+PORT := 3000
+HOST := 0.0.0.0
+ENV_FILE := .env.local
+SRC_DIR := ./src
+
 setup:
-	uv --project ./src venv --seed
-	uv --project ./src sync
+	uv --project $(SRC_DIR) venv --seed
+	uv --project $(SRC_DIR) sync
 
-.PHONY: start
 start:
-	cd src && uv run uvicorn main:app --host 0.0.0.0 --port 3000 --reload
+	uv --project $(SRC_DIR) run \
+		uvicorn main:app  \
+			--app-dir $(SRC_DIR) \
+			--host $(HOST) \
+			--port $(PORT) \
+			--reload
 
-.PHONY: dev
 dev:
-	uv --project ./src sync --frozen
-	cd src && uv run uvicorn main:app --host 0.0.0.0 --port 3000 --reload &
-	explorer.exe http://localhost:3000
+	uv --project $(SRC_DIR) run \
+		uvicorn main:app \
+			--app-dir $(SRC_DIR) \
+			--env-file ./$(ENV_FILE) \
+			--host $(HOST) \
+			--port $(PORT) \
+			--reload &
+	explorer.exe http://localhost:$(PORT)
 
-.PHONY: openapi
+sync:
+	uv --project $(SRC_DIR) sync --frozen
+
 openapi:
 	make start &
-	echo "OpenAPI documentation available at http://localhost:3000/docs"
-	explorer.exe http://localhost:3000/docs
+	echo "OpenAPI documentation available at http://localhost:$(PORT)/docs"
+	explorer.exe http://localhost:$(PORT)/docs
+
+stop:
+	pkill -f "uvicorn main:app"

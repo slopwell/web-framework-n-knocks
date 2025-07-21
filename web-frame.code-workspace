@@ -22,6 +22,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "[svg]": {
       "editor.defaultFormatter": "jock.svg"
+    },
+    "[makefile]": {
+      "editor.insertSpaces": false,
+      "editor.detectIndentation": false
     }
   }
 }
