@@ -9,6 +9,9 @@ http_request() {
 
   echo "Testing: $method $url (expecting $expected_status)"
 
+  curl -X "$method" "$url" \
+       -H "accept: application/json" | jq
+
   status=$(curl -X "$method" "$url" \
     -H "accept: application/json" \
     -o /dev/null \
