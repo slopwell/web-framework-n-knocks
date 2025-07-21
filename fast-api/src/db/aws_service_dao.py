@@ -38,3 +38,19 @@ def get_aws_service_id_sql(name: str, session: SessionDep) -> aws_service:
 
     return result
 
+def list_aws_services_sql(session: SessionDep) -> list[aws_service]:
+    """
+    全AWSサービスIDの取得
+    """
+    sql = select(aws_service)
+    result = run_query(session, sql, returns_one=False)
+    return result
+
+def post_aws_service_id_sql(item: aws_service, session: SessionDep) -> aws_service:
+    """
+    新規AWSサービスIDの登録
+    """
+    session.add(item)
+    session.commit()
+    session.refresh(item)
+    return item
