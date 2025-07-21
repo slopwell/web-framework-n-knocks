@@ -19,23 +19,16 @@ async def read_root():
     return {"message": "Welcome to the FastAPI!"}
 
 @app.get("/api/aws-service-id/{name}/", response_model=aws_service)
-async def get_aws_service_id(name: str, session: SessionDep):
+def get_aws_service_id(name: str, session: SessionDep) -> aws_service | None:
     """
     Retrieve AWS service ID by name.
     """
-    result = await get_aws_service_id_sql(name, session)
+    result = get_aws_service_id_sql(name, session)
     if not result:
         return {"error": "AWS service not found"}
 
 
-    return {
-        "aws_service": {
-            "id": result.id,
-            "name": result.name,
-            "description": result.description,
-            "category": result.category
-        }
-    }
+    return result
 
 @app.post("/api/aws-service-id", response_model=aws_service)
 async def create_aws_service_id(item: dict):
