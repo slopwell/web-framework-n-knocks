@@ -3,7 +3,7 @@
 import os
 from contextlib import asynccontextmanager
 from typing import Annotated
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy import create_engine
 from sqlmodel import Session, SQLModel
 
@@ -16,6 +16,7 @@ DB_PASSWORD = os.getenv("DB_PASSWORD", "mypassword")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "mydatabase")
+
 
 def get_engine():
   """
@@ -42,3 +43,28 @@ engine = get_engine()
 def get_session():
     with Session(engine) as session:
         yield session
+
+SessionDep = Annotated[Session, Depends(get_session)]
+
+
+def read_table(session: Session, query, returns_one: bool = True) :
+    """
+    SQL実行
+    """
+    # ScalarResult から値を取り出す必要がある
+    if returns_one:
+        result = session.exec(query).first()
+    else:
+        result = session.exec(query).all()
+    if not result:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return result
+
+def write_table(session: Session, item):
+    """
+    SQL実行
+    """
+    session.add(item)
+    session.commit()
+    session.refresh(item)
+    return item
