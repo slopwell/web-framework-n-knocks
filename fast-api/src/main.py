@@ -3,7 +3,7 @@ from fastapi import Depends, FastAPI
 from sqlalchemy import select
 from sqlmodel import Session
 from db.core import get_session
-from db.aws_service_dao import aws_service, get_aws_service_id_sql, list_aws_services_sql
+from db.aws_service_dao import aws_service, get_aws_service_id_sql, list_aws_services_sql, post_aws_service_id_sql, test_db_connection
 
 app = FastAPI()
 
@@ -16,7 +16,8 @@ async def read_root():
     """
     return {"message": "Welcome to the FastAPI!"}
 
-@app.get("/api/aws-service-id/{name}/", response_model=aws_service)
+# 末尾にスラッシュがあるとHTTP307にできるらしい
+@app.get("/api/aws-service-id/{name}", response_model=aws_service)
 def get_aws_service_id(name: str, session: SessionDep) -> aws_service | None:
     """
     Retrieve AWS service ID by name.
@@ -28,24 +29,27 @@ def get_aws_service_id(name: str, session: SessionDep) -> aws_service | None:
     return result
 
 @app.post("/api/aws-service-id", response_model=aws_service)
-async def create_aws_service_id(item: dict):
+async def create_aws_service_id(item: aws_service, session: SessionDep) -> aws_service:
     """
     Create a new AWS service ID.
     """
-    fake_items_db.append(item)
-    return {"message": "AWS service ID created", "item": item}
+    result = post_aws_service_id_sql(item, session)
+    return result
 
-@app.get("/api/aws-services/")
-async def list_aws_services(session: SessionDep):
+@app.get("/api/aws-services")
+async def list_aws_services(category: str, session: SessionDep):
     """
     List all AWS service IDs.
     """
-    result = list_aws_services_sql(session)
+    result = list_aws_services_sql(category, session)
     return result
 
 @app.get("/api/health")
-async def health_check():
+async def health_check(session: SessionDep):
     """
     Health check endpoint.
     """
-    return {"status": "ok"}
+    result = test_db_connection(session)
+    if result:
+        return result
+    return {"status": "DB connection failed!!"}
