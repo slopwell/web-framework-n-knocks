@@ -5,15 +5,16 @@ PORT := 3000
 HOST := 0.0.0.0
 ENV_FILE := .env.local
 SRC_DIR := ./src
+DOCKER_DIR := /usr/src/app
 
 setup:
 	uv --project $(SRC_DIR) venv --seed
 	uv --project $(SRC_DIR) sync
 
 start:
-	uv --project $(SRC_DIR) run \
+	uv run \
 		uvicorn main:app  \
-			--app-dir $(SRC_DIR) \
+			--app-dir $(DOCKER_DIR) \
 			--host $(HOST) \
 			--port $(PORT) \
 			--reload
@@ -32,7 +33,7 @@ sync:
 	uv --project $(SRC_DIR) sync --frozen
 
 openapi:
-	make start &
+	make dev &
 	echo "OpenAPI documentation available at http://localhost:$(PORT)/docs"
 	explorer.exe http://localhost:$(PORT)/docs
 

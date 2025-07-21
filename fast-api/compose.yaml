@@ -13,10 +13,10 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
     volumes:
-      - ./app:/usr/src/app
-    working_dir: /usr/src/app
+      - ./src:/usr/src/app
+      - ./Makefile:/usr/src/app/Makefile
     ports:
-      - "8000:8000"
+      - "3000:3000"
     command: "make start"
     networks:
       - web-framework-n-knocks
