@@ -3,11 +3,9 @@ from fastapi import Depends, FastAPI
 from sqlalchemy import select
 from sqlmodel import Session
 from db.core import get_session
-from db.aws_service_dao import aws_service, get_aws_service_id_sql
+from db.aws_service_dao import aws_service, get_aws_service_id_sql, list_aws_services_sql
 
 app = FastAPI()
-
-fake_items_db = [{"item_name": "Foo"}, {"item_name": "Bar"}, {"item_name": "Baz"}]
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -27,7 +25,6 @@ def get_aws_service_id(name: str, session: SessionDep) -> aws_service | None:
     if not result:
         return {"error": "AWS service not found"}
 
-
     return result
 
 @app.post("/api/aws-service-id", response_model=aws_service)
@@ -39,11 +36,12 @@ async def create_aws_service_id(item: dict):
     return {"message": "AWS service ID created", "item": item}
 
 @app.get("/api/aws-services/")
-async def list_aws_services():
+async def list_aws_services(session: SessionDep):
     """
     List all AWS service IDs.
     """
-    return {"aws_services": fake_items_db}
+    result = list_aws_services_sql(session)
+    return result
 
 @app.get("/api/health")
 async def health_check():
