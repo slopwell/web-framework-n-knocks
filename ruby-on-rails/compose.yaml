@@ -1,0 +1,22 @@
+include:
+  - ../compose.db.yaml
+
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../.envrc
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    depends_on:
+      - db
+    networks:
+      - web-framework-n-knocks

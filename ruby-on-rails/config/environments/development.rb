@@ -1,6 +1,17 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+
+  puts "-----------------------------------"
+  puts "development"
+
+  puts "DBHOST: #{ENV['DB_HOST']}"
+  puts "DBPORT: #{ENV['DB_PORT']}"
+  puts "DBUSERNAME: #{ENV['POSTGRES_USER']}"
+  puts "DBPASSWORD: #{ENV['POSTGRES_PASSWORD']}"
+  puts "DBNAME: #{ENV['POSTGRES_DB']}"
+  puts "-----------------------------------"
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.
