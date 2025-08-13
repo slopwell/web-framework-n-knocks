@@ -15,6 +15,10 @@
     {
       "name": "fast-api",
       "path": "./fast-api"
+    },
+    {
+      "name": "ruby-on-rails",
+      "path": "./ruby-on-rails"
     }
   ],
   "settings": {
