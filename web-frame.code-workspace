@@ -17,6 +17,10 @@
       "path": "./fast-api"
     },
     {
+      "name": "nuxt-js",
+      "path": "./nuxt-js"
+    },
+    {
       "name": "ruby-on-rails",
       "path": "./ruby-on-rails"
     }
